@@ -14,8 +14,6 @@ class HomepageTest extends DuskTestCase
      */
     public function testExample(): void
     {
-        $this->seed(TestingSeeder::class);
-
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                 ->assertSee('test@example.com')

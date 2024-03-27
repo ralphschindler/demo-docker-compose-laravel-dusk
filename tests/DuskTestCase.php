@@ -5,7 +5,9 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Collection;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
@@ -13,6 +15,13 @@ use PHPUnit\Framework\Attributes\BeforeClass;
 abstract class DuskTestCase extends BaseTestCase
 {
     use DatabaseTruncation;
+
+    protected function refreshApplication(): void
+    {
+        parent::refreshApplication();
+
+        config()->set('database.default', 'testing');
+    }
 
     /**
      * Prepare for Dusk test execution.
@@ -24,11 +33,6 @@ abstract class DuskTestCase extends BaseTestCase
             static::startChromeDriver();
         }
     }
-
-    // protected function setUp(): void
-    // {
-    //     parent::setUp();
-    // }
 
     /**
      * Create the RemoteWebDriver instance.
@@ -73,5 +77,10 @@ abstract class DuskTestCase extends BaseTestCase
     {
         return isset($_SERVER['DUSK_START_MAXIMIZED']) ||
                isset($_ENV['DUSK_START_MAXIMIZED']);
+    }
+
+    protected function seeder(): string
+    {
+        return 'TestingSeeder';
     }
 }
