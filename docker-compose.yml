@@ -37,3 +37,5 @@ services:
       - /dev/shm:/dev/shm
     ports:
       - "4444:4444"
+      # - "5900:5900" # VNC protocol
+      # - "7900:7900" # noVNC web interface
